@@ -9,24 +9,24 @@
 using namespace std;
 int main ()
 {
-    CryptoPP::SHA1 hash; // создание хэш-объекта
-    cout <<"Name: " << hash.AlgorithmName() << endl; // Имя алгоритма
-    cout << "Diget size:" << hash.DigestSize() << endl; //размер хэша
-    cout << "Block size:" << hash.BlockSize() << endl; // размер внутреннего Блока
+    CryptoPP::SHA1 hash; 
+    cout <<"Name: " << hash.AlgorithmName() << endl; 
+    cout << "Diget size:" << hash.DigestSize() << endl; 
+    cout << "Block size:" << hash.BlockSize() << endl; 
     fstream file;
-    string path = "/home/student/text.txt"; // Путь до файла
+    string path = "/home/student/text.txt";
     string str_message, file_contents;
     file.open(path);
     while(true) {
         getline(file,str_message);
-        if (file.fail()) //сразу после чтения поток проверяется на наличие
+        if (file.fail()) 
             break;
         file_contents += str_message;
     }
-    cout << "content: " << file_contents << endl; // содержимое файла
+    cout << "content: " << file_contents << endl;
     vector<byte> digest (hash.DigestSize());
-    hash.Update((const byte*)(file_contents.data()),file_contents.size()); // формируем хэш
-    hash.Final(digest.data()); // получаем хэш
+    hash.Update((const byte*)(file_contents.data()),file_contents.size()); 
+    hash.Final(digest.data());
     cout << "Digest: ";
     CryptoPP::StringSource(digest.data(),digest.size(),true, new  CryptoPP::HexEncoder(new  CryptoPP::FileSink(cout))); // выводим хэш в формате "hex"
     cout << endl;
