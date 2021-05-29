@@ -27,6 +27,7 @@ void RC5_CLASS::decrc5 (RC5_CLASS dec)
     pbkdf.DeriveKey(key.data(), key.size(), 0, (byte*)dec.psw.data(), psw.size(), (byte*)salt.data(), salt.size(), 1024, 0.0f);
     byte iv[RC5::BLOCKSIZE];
    ifstream v_IV(dec.IV.c_str(), ios::in | ios::binary);
+   v_IV.read((char*)(&iv), RC5::BLOCKSIZE);
     CBC_Mode<RC5>::Decryption decr;
     decr.SetKeyWithIV(key, key.size(), iv);
     FileSource fs(dec.in.c_str(), true, new StreamTransformationFilter(decr, new FileSink(dec.out.c_str())));

@@ -29,6 +29,7 @@ void DES_CLASS::decDES (DES_CLASS dec)
     pbkdf.DeriveKey(key.data(), key.size(), 0, (byte*)dec.psw.data(), psw.size(), (byte*)salt.data(), salt.size(), 1024, 0.0f);
     byte iv[DES::BLOCKSIZE];
     ifstream v_IV(dec.IV.c_str(), ios::in | ios::binary);
+    v_IV.read((char*)(&iv), DES::BLOCKSIZE);
     CBC_Mode<DES>::Decryption decr;
     decr.SetKeyWithIV(key, key.size(), iv);
     FileSource fs(dec.in.c_str(), true, new StreamTransformationFilter(decr, new FileSink(dec.out.c_str())));
